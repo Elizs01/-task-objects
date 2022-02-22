@@ -1,3 +1,5 @@
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
+
 /*
   В функцию personUpdate() приходят данные в виде объекта, содержащую некую информацию о человеке.
   Если этот человек является женщиной (свойство gender содержит значение 'female'), то из этого объекта
@@ -8,6 +10,15 @@
   Объект после манипуляций следует вернуть в качестве результата работы функции.
 */
 export function personUpdate(data) {
+    if (data.gender == 'female') {
+        delete data.age;
+    }
+    if (data.gender == 'male') {
+        if (data.income === undefined) {
+            data.income = 100000;
+        }
+    }
+    return data;
 }
 
 /*
@@ -15,6 +26,17 @@ export function personUpdate(data) {
   Верните список названий этих полей в алфавитном порядке в виде массива строк.
 */
 export function objectFieldsList(obj1, obj2, obj3) {
+    let data = [];
+    addValue(obj1, data);
+    addValue(obj2, data);
+    addValue(obj3, data);
+    function addValue(obj, data) {
+        for (let key in obj) {
+            data.push(key);
+        }
+    }
+    data.sort();
+    return data;
 }
 
 /*
@@ -23,4 +45,13 @@ export function objectFieldsList(obj1, obj2, obj3) {
   Количество клонов - count.
 */
 export function objectClone(obj, count) {
+    let objr = {};
+    let data = [];
+    for (let i = 0; i < count; i++) {
+        objr = JSON.parse(JSON.stringify(obj));
+        objr.id = i;
+        Object.entries(objr);
+        data.push(objr);
+    }
+    return data;
 }
